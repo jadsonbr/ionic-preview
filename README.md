@@ -10,3 +10,8 @@ The extension can be activated with
 
 <p align="center"><img src="https://github.com/jadsonbr/ionic-preview/blob/master/images/command.png?raw=true"></p>
 <p align="center"><img src="https://github.com/jadsonbr/ionic-preview/blob/master/images/preview.png?raw=true"></p>
+
+
+### Contributors
+
+* Leandro Bittencourt  <leandrocintrabitencourt@gmail.com>

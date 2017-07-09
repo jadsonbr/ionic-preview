@@ -1,5 +1,9 @@
 # VS Code Ionic Preview
 
+
+[![Version](http://vsmarketplacebadge.apphb.com/version/ionic-preview.ionic-preview.svg)](https://marketplace.visualstudio.com/items?itemName=ionic-preview.ionic-preview) 
+[![Installs](http://vsmarketplacebadge.apphb.com/installs/ionic-preview.ionic-preview.svg)](https://marketplace.visualstudio.com/items?itemName=ionic-preview.ionic-preview)
+
 An extension to preview Ionic Serve in VSCode
 
 

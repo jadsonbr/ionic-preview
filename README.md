@@ -24,6 +24,8 @@ The extension can be activated with
 ## Settings
 * `ionic-preview.port` : Customize Port Number of your Ionic Serve. Default value is `8100`.
 
+* `ionic-preview.host` : Customize Host of your Ionic Serve. Default value is `127.0.0.1`.
+
 
 ### Contributors
 

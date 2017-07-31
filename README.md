@@ -31,3 +31,7 @@ The extension can be activated with
 
 * Jadson Ribeiro  <jadsonbr@outlook.com.br>
 * Leandro Bittencourt  <leandrocintrabitencourt@gmail.com>
+
+---
+
+[![Paypal Donations](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=V2SUB9RQHYUGE&lc=US&item_name=Ionic%20Preview&item_number=ionic%2dpreview&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted) a :coffee: if you enjoy using this extension :thumbsup:

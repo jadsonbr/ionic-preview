@@ -1,0 +1,91 @@
+{
+    "name": "ionic-preview",
+    "displayName": "Ionic Preview",
+    "description": "Preview a live version of your Ionic application in an VS Code pane.",
+    "version": "0.0.15",
+    "publisher": "ionic-preview",
+    "author": "Jadson Bonfim Ribeiro",
+    "readme": "README.md",    
+    "icon": "images/ionic.png",
+    "engines": {
+        "vscode": "^1.14.0"
+    },
+    "galleryBanner": {
+        "color": "#3B3738",
+        "theme": "dark"
+    },  
+    "bugs": "https://github.com/jadsonbr/ionic-preview/issues",
+    "homepage": "https://github.com/jadsonbr/ionic-preview/blob/master/README.md", 
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jadsonbr/ionic-preview"
+    },
+    "keywords": [
+        "ionic",
+        "ionic 2",
+        "ionic 3",
+        "ionic framework",
+        "mobile"
+    ],    
+    "categories": [
+        "Extension Packs",
+        "Other"
+    ],
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.ionic-preview-android",
+                "title": "Android",
+                "category": "Ionic Preview"
+            },
+            {
+                "command": "extension.ionic-preview-ios",
+                "title": "IOS",
+                "category": "Ionic Preview"
+            },
+            {
+                "command": "extension.ionic-preview-windows",
+                "title": "Windows Phone",
+                "category": "Ionic Preview"
+            },            
+            {
+                "command": "extension.ionic-preview-undefined",
+                "title": "Without frame",
+                "category": "Ionic Preview"
+            }            
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Ionic Preview",
+            "properties": {
+                "ionic-preview.host": {
+                    "type": "string",
+                    "default": "127.0.0.1",
+                    "description": "The host on which the ionic serves is running."
+                },                    
+                "ionic-preview.port": {
+                    "type": "number",
+                    "default": 8100,
+                    "description": "The port on which the ionic serves is running."
+                }          
+            }
+        }        
+    },
+    "scripts": {
+        "vscode:prepublish": "tsc -p ./",
+        "compile": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.0.3",
+        "vscode": "^1.0.0",
+        "mocha": "^2.3.3",
+        "@types/node": "^6.0.40",
+        "@types/mocha": "^2.2.32"
+    }
+}

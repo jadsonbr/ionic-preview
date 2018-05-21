@@ -2,7 +2,7 @@
     "name": "ionic-preview",
     "displayName": "Ionic Preview",
     "description": "Preview a live version of your Ionic application in an VS Code pane.",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "publisher": "ionic-preview",
     "author": "Jadson Bonfim Ribeiro",
     "readme": "README.md",    
@@ -71,7 +71,12 @@
                     "type": "number",
                     "default": 8100,
                     "description": "The port on which the ionic serves is running."
-                }          
+                },
+                "ionic-preview.background-color": {
+                    "type": "strinf",
+                    "default": "#FFFFFF",
+                    "description": "The background color of the page"
+                }                           
             }
         }        
     },

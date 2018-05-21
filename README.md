@@ -26,6 +26,8 @@ The extension can be activated with
 
 * `ionic-preview.host` : Customize Host of your Ionic Serve. Default value is `127.0.0.1`.
 
+* `ionic-preview.background-color`: Customize the background color of the page. The default value is `#FFFFFF`
+
 
 ### Contributors
 

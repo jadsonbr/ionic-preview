@@ -11,6 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     let portaIonic: any;
     let hostIonic: any;
+    let backgroundColor: any;
 
     // Verifica se porta está em uso
     var portNotInUse = function(port, host, callback) {
@@ -63,7 +64,8 @@ export function activate(context: vscode.ExtensionContext) {
     var lerConf = function(){
         let config = vscode.workspace.getConfiguration('ionic-preview');
         portaIonic = config.get('port');    
-        hostIonic = config.get('host');   
+        hostIonic = config.get('host'); 
+        backgroundColor = config.get('background-color'); 
     }
 
     let previewAndroid = vscode.commands.registerCommand('extension.ionic-preview-android', async () => {
@@ -71,7 +73,7 @@ export function activate(context: vscode.ExtensionContext) {
                     
         portNotInUse(portaIonic, hostIonic, function(returnValue) {
             if (returnValue){
-                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-android" class="android"><iframe src="http://localhost:'+portaIonic+'/?ionicplatform=android" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="styles.css"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>';
+                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: '+backgroundColor+'"><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-android" class="android"><iframe src="http://localhost:'+portaIonic+'/?ionicplatform=android" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="styles.css"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>';
                 createFile(path.join(__filename, '..','..','..','out','src','android.html'), htmlAndroid);
                 let uriandroid = vscode.Uri.file(path.join(__filename, '..','..','..','out','src','android.html'));  
                 let success = vscode.commands.executeCommand('vscode.previewHtml', uriandroid, vscode.ViewColumn.Two, 'Ionic Preview - Android').then((success) => {}, 
@@ -89,7 +91,7 @@ export function activate(context: vscode.ExtensionContext) {
                     
         portNotInUse(portaIonic, hostIonic, function(returnValue) {
             if (returnValue){
-                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-ios" class="ios"><iframe src="http://localhost:'+portaIonic+'/?ionicplatform=ios" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="styles.css"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>';
+                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: '+backgroundColor+'"><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-ios" class="ios"><iframe src="http://localhost:'+portaIonic+'/?ionicplatform=ios" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="styles.css"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>';
                 createFile(path.join(__filename, '..','..','..','out','src','ios.html'), htmlAndroid);
                 let uriios = vscode.Uri.file(path.join(__filename, '..','..','..','out','src','ios.html'));  
                 let success = vscode.commands.executeCommand('vscode.previewHtml', uriios, vscode.ViewColumn.Two, 'Ionic Preview - IOS').then((success) => {}, 
@@ -107,7 +109,7 @@ export function activate(context: vscode.ExtensionContext) {
                     
         portNotInUse(portaIonic, hostIonic, function(returnValue) {
             if (returnValue){
-                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-windows" class="windows"><iframe src="http://localhost:'+portaIonic+'/?ionicplatform=windows" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="styles.css"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>';
+                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: '+backgroundColor+'"><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-windows" class="windows"><iframe src="http://localhost:'+portaIonic+'/?ionicplatform=windows" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="styles.css"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>';
                 createFile(path.join(__filename, '..','..','..','out','src','windows.html'), htmlAndroid);
                 let uriwindows = vscode.Uri.file(path.join(__filename, '..','..','..','out','src','windows.html'));  
                 let success = vscode.commands.executeCommand('vscode.previewHtml', uriwindows, vscode.ViewColumn.Two, 'Ionic Preview - windows').then((success) => {}, 
@@ -125,7 +127,7 @@ export function activate(context: vscode.ExtensionContext) {
                     
         portNotInUse(portaIonic, hostIonic, function(returnValue) {
             if (returnValue){
-                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body><iframe id="t1" src="http://localhost:'+portaIonic+'" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></body></html>';
+                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: '+backgroundColor+'"><iframe id="t1" src="http://localhost:'+portaIonic+'" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></body></html>';
                 createFile(path.join(__filename, '..','..','..','out','src','undefined.html'), htmlAndroid);
                 let uriundefined = vscode.Uri.file(path.join(__filename, '..','..','..','out','src','undefined.html'));  
                 let success = vscode.commands.executeCommand('vscode.previewHtml', uriundefined, vscode.ViewColumn.Two, 'Ionic Preview - Without Frame').then((success) => {}, 

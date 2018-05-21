@@ -27314,7 +27314,7 @@ a.footer-link {
 #demo-device-ios, #demo-device-android, #demo-device-windows {
   width: 467px;
   height: 800px;
-  background: center top no-repeat url("devices-sprite.jpg");
+  background: center top no-repeat url("devices-sprite.png");
   background-size: 467px;
   margin: 0 auto; }
   #demo-device-ios iframe, #demo-device-android iframe, #demo-device-windows iframe {

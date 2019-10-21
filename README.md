@@ -31,7 +31,7 @@ The extension can be activated with
 
 ### Contributors
 
-* Jadson Ribeiro  <jadsonbr@outlook.com.br>
+* Jadson Ribeiro  <contato@jadsonbr.com.br>
 * Leandro Bittencourt  <leandrocintrabitencourt@gmail.com>
 
 ---

@@ -13,17 +13,16 @@ export function activate(context: vscode.ExtensionContext) {
     let hostIonic: any;
     let backgroundColor: any;
 
-    // Verifica se porta está em uso
-    var portNotInUse = function(port, host, callback) {
+    var portNotInUse = function(port: any, host: any, callback: any) {
         var server = net.createServer(function(socket) {
             socket.write('Echo server\r\n');
             socket.pipe(socket);
         });
         server.listen(port, host);
-            server.on('error', function (e) {
+            server.on('error', function () {
             callback(true);
         });
-        server.on('listening', function (e) {
+        server.on('listening', function () {
             server.close();
             if(host == '127.0.0.1'){
                 if (portNotInUse0000(port)){
@@ -37,29 +36,21 @@ export function activate(context: vscode.ExtensionContext) {
         });
     }; 
 
-    let portNotInUse0000 = function(porta) {
+    var portNotInUse0000 = function(porta: any): boolean {
         var server = net.createServer(function(socket) {
             socket.write('Echo server\r\n');
             socket.pipe(socket);
         });
         server.listen(porta, '0.0.0.0');
-            server.on('error', function (e) {
+            server.on('error', function () {
             return(true);
         });
-        server.on('listening', function (e) {
+        server.on('listening', function () {
             server.close();
             return(false);
         });
-    };     
-
-    //Criar arquivo
-    var createFile = function(arquivo, conteudo){
-        fs.writeFile(arquivo, conteudo,  function(err) {
-            if (err) {
-                return console.error(err);
-            }
-        });
-    };    
+        return(false)
+    };      
 
     var lerConf = function(){
         let config = vscode.workspace.getConfiguration('ionic-preview');
@@ -68,82 +59,82 @@ export function activate(context: vscode.ExtensionContext) {
         backgroundColor = config.get('background-color'); 
     }
 
-    let previewAndroid = vscode.commands.registerCommand('extension.ionic-preview-android', async () => {
-        lerConf();       
-                    
-        portNotInUse(portaIonic, hostIonic, function(returnValue) {
-            if (returnValue){
-                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: '+backgroundColor+'"><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-android" class="android"><iframe src="http://localhost:'+portaIonic+'/?ionicplatform=android" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="styles.css"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>';
-                createFile(path.join(__filename, '..','..','..','out','src','android.html'), htmlAndroid);
-                let uriandroid = vscode.Uri.file(path.join(__filename, '..','..','..','out','src','android.html'));  
-                let success = vscode.commands.executeCommand('vscode.previewHtml', uriandroid, vscode.ViewColumn.Two, 'Ionic Preview - Android').then((success) => {}, 
-                (reason) => {
-                    vscode.window.showErrorMessage(reason);
-                });
-            } else {
-                vscode.window.showErrorMessage('We did not identify the Ionic serve running on host '+hostIonic+' on port '+portaIonic);                  
-            }
-        });    
-    });
+    const onDiskPath = vscode.Uri.file(
+        path.join(context.extensionPath, 'styles.css')
+    );    
 
-    let previewIOS = vscode.commands.registerCommand('extension.ionic-preview-ios', async () => {
-        lerConf();             
-                    
-        portNotInUse(portaIonic, hostIonic, function(returnValue) {
-            if (returnValue){
-                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: '+backgroundColor+'"><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-ios" class="ios"><iframe src="http://localhost:'+portaIonic+'/?ionicplatform=ios" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="styles.css"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>';
-                createFile(path.join(__filename, '..','..','..','out','src','ios.html'), htmlAndroid);
-                let uriios = vscode.Uri.file(path.join(__filename, '..','..','..','out','src','ios.html'));  
-                let success = vscode.commands.executeCommand('vscode.previewHtml', uriios, vscode.ViewColumn.Two, 'Ionic Preview - IOS').then((success) => {}, 
-                (reason) => {
-                    vscode.window.showErrorMessage(reason);
-                });
-            } else {
-                vscode.window.showErrorMessage('We did not identify the Ionic serve running on host '+hostIonic+' on port '+portaIonic);                                      
-            }
-        });    
-    });  
+    context.subscriptions.push(
+        vscode.commands.registerCommand('extension.ionic-preview-android', () => {
+            lerConf();
+            const panel = vscode.window.createWebviewPanel(
+                'ionicAndroid',
+                'Ionic Preview - Android',
+                vscode.ViewColumn.Two,
+                {
+                    enableScripts: true,
+                    localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath))]
+                }
+            );
+            const styleCssSrc = panel.webview.asWebviewUri(onDiskPath);
+            let htmlAndroid = `<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: ${backgroundColor}"><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-android" class="android"><iframe src="http://localhost:${portaIonic}/?ionicplatform=android" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="${styleCssSrc}"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>`;
+            panel.webview.html = htmlAndroid; 
+            console.log(htmlAndroid);           
+        })
+      );
 
-    let previewWindows = vscode.commands.registerCommand('extension.ionic-preview-windows', async () => {
-        lerConf();             
-                    
-        portNotInUse(portaIonic, hostIonic, function(returnValue) {
-            if (returnValue){
-                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: '+backgroundColor+'"><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-windows" class="windows"><iframe src="http://localhost:'+portaIonic+'/?ionicplatform=windows" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="styles.css"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>';
-                createFile(path.join(__filename, '..','..','..','out','src','windows.html'), htmlAndroid);
-                let uriwindows = vscode.Uri.file(path.join(__filename, '..','..','..','out','src','windows.html'));  
-                let success = vscode.commands.executeCommand('vscode.previewHtml', uriwindows, vscode.ViewColumn.Two, 'Ionic Preview - windows').then((success) => {}, 
-                (reason) => {
-                    vscode.window.showErrorMessage(reason);
-                });
-            } else {
-                vscode.window.showErrorMessage('We did not identify the Ionic serve running on host '+hostIonic+' on port '+portaIonic);                                        
-            }
-        });    
-    });    
+      context.subscriptions.push(
+        vscode.commands.registerCommand('extension.ionic-preview-ios', () => {
+            lerConf();
+                const panel = vscode.window.createWebviewPanel(
+                    'ionicIOS',
+                    'Ionic Preview - iOS',
+                    vscode.ViewColumn.Two,
+                    {
+                        enableScripts: true,
+                        localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath))]                    
+                    }
+                );
+                const styleCssSrc = panel.webview.asWebviewUri(onDiskPath);
+                let htmlIOS = `<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: ${backgroundColor}"><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-ios" class="ios"><iframe src="http://localhost:${portaIonic}/?ionicplatform=ios" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="${styleCssSrc}"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>`;
+                panel.webview.html = htmlIOS;            
+        })
+      );
 
-    let previewUndefined = vscode.commands.registerCommand('extension.ionic-preview-undefined', async () => {
-        lerConf();               
-                    
-        portNotInUse(portaIonic, hostIonic, function(returnValue) {
-            if (returnValue){
-                let htmlAndroid = '<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: '+backgroundColor+'"><iframe id="t1" src="http://localhost:'+portaIonic+'" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></body></html>';
-                createFile(path.join(__filename, '..','..','..','out','src','undefined.html'), htmlAndroid);
-                let uriundefined = vscode.Uri.file(path.join(__filename, '..','..','..','out','src','undefined.html'));  
-                let success = vscode.commands.executeCommand('vscode.previewHtml', uriundefined, vscode.ViewColumn.Two, 'Ionic Preview - Without Frame').then((success) => {}, 
-                (reason) => {
-                    vscode.window.showErrorMessage(reason);
-                });
-            } else {
-                vscode.window.showErrorMessage('We did not identify the Ionic serve running on host '+hostIonic+' on port '+portaIonic);                                  
-            }
-        });    
-    });         
-
-    context.subscriptions.push(previewAndroid);
-    context.subscriptions.push(previewIOS);
-    context.subscriptions.push(previewWindows);
-    context.subscriptions.push(previewUndefined);
+      context.subscriptions.push(
+        vscode.commands.registerCommand('extension.ionic-preview-windows', () => {
+            lerConf();
+            const panel = vscode.window.createWebviewPanel(
+                'ionicWindows',
+                'Ionic Preview - Windows',
+                vscode.ViewColumn.Two,
+                {
+                    enableScripts: true,
+                    localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath))]                      
+                }
+            );
+            const styleCssSrc = panel.webview.asWebviewUri(onDiskPath);
+            let htmlWindows = `<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: ${backgroundColor}"><aside id="platform-preview-2" class="platform-preview-2"><div id="demo-device-windows" class="windows"><iframe src="http://localhost:${portaIonic}/?ionicplatform=windows" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></div></aside> </body><link rel="stylesheet" type="text/css" href="${styleCssSrc}"><style>html, body { width: 100% !important; height: 100% !important; margin-top: 0px; margin: 0}.platform-preview-2 { min-width: 360px !important; margin: 0 auto !important; text-align: center; }</style></html>`;
+            panel.webview.html = htmlWindows;          
+        })
+      );    
+      
+      context.subscriptions.push(
+        vscode.commands.registerCommand('extension.ionic-preview-undefined', () => {
+            lerConf();
+            const panel = vscode.window.createWebviewPanel(
+                'ionicUndefined',
+                'Ionic Preview - Without Frame',
+                vscode.ViewColumn.Two,
+                {
+                    enableScripts: true,
+                    localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath))]                  
+                }
+            );
+            const styleCssSrc = panel.webview.asWebviewUri(onDiskPath);
+            let htmlUndefined = `<!DOCTYPE html><html lang="en"><head><title></title><meta charset="UTF-8"></head><body style="background-color: ${backgroundColor}"><iframe id="t1" src="http://localhost:${portaIonic}" width="360" height="640" frameborder="0" scrolling="no" style="pointer-events: auto;"> </iframe></body></html>`;
+            panel.webview.html = htmlUndefined;          
+        })
+      );         
 }
 
 

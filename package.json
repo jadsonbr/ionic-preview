@@ -76,7 +76,7 @@
                     "description": "The port on which the ionic serves is running."
                 },
                 "ionic-preview.background-color": {
-                    "type": "strinf",
+                    "type": "string",
                     "default": "#FFFFFF",
                     "description": "The background color of the page"
                 }
